@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Bazaar - Fresh Grocery & Snacks</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top Navigation (Sticky) -->
+    <nav class="top-nav" id="topNav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="brand" aria-label="Star Bazaar — Home">
+                    <img src="logo.png" alt="Star Bazaar" class="logo-img" loading="eager" decoding="async" />
+                </a>
+            </div>
+            
+            <div class="nav-search">
+                <input type="search" id="searchInput" placeholder="Search for products..." aria-label="Search products">
+                <button type="button" id="searchBtn" aria-label="Search">🔍</button>
+            </div>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link" data-page="home">Home</a>
+                <a href="about.html" class="nav-link" data-page="about">About</a>
+                <a href="kitchen.html" class="nav-link" data-page="kitchen">Kitchen</a>
+                <a href="login.html" class="nav-link" data-page="login">Login</a>
+                <a href="register.html" class="nav-link" data-page="register">Register</a>
+                <a href="profile.html" class="nav-link" data-page="profile">Profile</a>
+                <a href="#" class="nav-link cart-link" data-page="cart">🛒 Cart <span id="cartCount" class="cart-badge">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Greeting -->
+    <section class="hero-greeting" id="heroGreeting">
+        <div class="hero-content">
+            <div class="mini-greet" id="greetingText">Good Morning, Guest — welcome to Star Bazaar!</div>
+        </div>
+    </section>
+
+    <!-- Store Photos Carousel -->
+    <section class="carousel-section">
+        <div class="container">
+            <div class="carousel" id="storeCarousel">
+                <button class="carousel-btn prev" id="carouselPrev" aria-label="Previous slide">‹</button>
+                <button class="carousel-btn next" id="carouselNext" aria-label="Next slide">›</button>
+                
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Slides will be injected by JS -->
+                </div>
+                
+                <div class="carousel-dots" id="carouselDots">
+                    <!-- Dots will be injected by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Today's Offers -->
+    <section class="offers-section" id="offersSection" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Today's Special Offers</h2>
+            <div class="offers-strip" id="offersStrip">
+                <!-- Offer cards will be injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Today's Snacks & Foods -->
+    <section class="snacks-section">
+        <div class="container">
+            <h2 class="section-title">Today's Snacks & Fresh Bites</h2>
+            <div class="snacks-grid" id="snacksGrid">
+                <!-- Snack cards will be injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Grid -->
+    <section class="categories-section" id="categoriesSection">
+        <div class="container">
+            <h2 class="section-title">Shop by Category</h2>
+            <div class="categories-grid" id="categoriesGrid">
+                <!-- Category tiles will be injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Continue Shopping CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <button type="button" class="cta-btn" id="continueShoppingBtn">Continue Shopping</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Store Timings</h3>
+                    <p><strong>Monday – Friday:</strong><br>10:00 AM – 7:45 PM</p>
+                    <p><strong>Saturday – Sunday:</strong><br>9:30 AM – 7:45 PM</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <p id="footerAddress">1760 Easton Ave, Somerset, NJ 08873</p>
+                    <p>📞 <a href="tel:+17323563000" id="footerPhone">+1 (732) 356-3000</a></p>
+                    <p>✉️ <a href="mailto:starbazaar@gmail.com" id="footerEmail">starbazaar@gmail.com</a></p>
+                    <p>🌐 <a href="https://starbigbazaar.com/" rel="noopener" target="_blank">starbigbazaar.com</a></p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <p><a href="/#">About Us</a></p>
+                    <p><a href="/#">Privacy Policy</a></p>
+                    <p><a href="/#">Terms of Service</a></p>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2025 Star Bazaar. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal (Login/Register) -->
+    <div class="modal-overlay" id="authModal" style="display: none;">
+        <div class="modal-content">
+            <button type="button" class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            
+            <div class="modal-tabs">
+                <button type="button" class="tab-btn active" data-tab="login">Login</button>
+                <button type="button" class="tab-btn" data-tab="register">Register</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm" data-form="login">
+                <h2>Welcome Back!</h2>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required aria-required="true">
+                </div>
+                <button type="submit" class="auth-submit-btn">Login</button>
+                <p class="form-message" id="loginMessage"></p>
+            </form>
+            
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm" data-form="register">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <label for="registerName">Name</label>
+                    <input type="text" id="registerName" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required aria-required="true">
+                </div>
+                <button type="submit" class="auth-submit-btn">Register</button>
+                <p class="form-message" id="registerMessage"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="script.js"></script>
+    <script>
+// ----- Auth state helpers -----
+function __sb_get(key, d){ try { return JSON.parse(localStorage.getItem(key)); } catch(e){ return d; } }
+function __sb_set(key, v){ localStorage.setItem(key, JSON.stringify(v)); }
+
+window.isLoggedIn = window.isLoggedIn || function(){ return localStorage.getItem("sb_auth")==="true"; };
+window.getUser    = window.getUser    || function(){ return __sb_get("sb_user", null); };
+window.logout     = window.logout     || function(){ localStorage.setItem("sb_auth","false"); };
+
+// ----- OTP-first routing (no modal, no password) -----
+window.openAuthModal = function(){
+  // Redirect to the OTP login page with a returnTo
+  var ret = encodeURIComponent(location.pathname + location.search + location.hash);
+  location.href = "login.html?returnTo=" + ret;
+};
+window.openRegisterModal = function(){
+  var ret = encodeURIComponent(location.pathname + location.search + location.hash);
+  location.href = "register.html?returnTo=" + ret;
+};
+
+// Guard for actions that require auth (attach before doing protected actions)
+window.requireAuth = function(next){
+  if (window.isLoggedIn && window.isLoggedIn()){
+    if (typeof next === "function") next();
+    return true;
+  }
+  window.openAuthModal();
+  return false;
+};
+
+// ----- Active nav highlighter (same everywhere) -----
+(function(){
+  try{
+    var file = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+    var page = file==="index.html"?"home":
+               file==="about.html"?"about":
+               file==="kitchen.html"?"kitchen":
+               file==="login.html"?"login":
+               file==="register.html"?"register":
+               file==="profile.html"?"profile":
+               file==="cart.html"?"cart":"";
+    document.querySelectorAll(".nav-link").forEach(function(a){
+      a.classList.toggle("active", a.getAttribute("data-page")===page);
+    });
+    var brand = document.querySelector(".brand");
+    if (brand && brand.tagName==="A") brand.setAttribute("href","index.html");
+  }catch(e){}
+})();
+</script>
+<script>
+(function(){
+  try{
+    var loggedIn = window.isLoggedIn && window.isLoggedIn();
+    var loginLink    = document.querySelector('.nav-link[data-page="login"]');
+    var registerLink = document.querySelector('.nav-link[data-page="register"]');
+    var profileLink  = document.querySelector('.nav-link[data-page="profile"]');
+    if (loggedIn){
+      if (loginLink)    loginLink.style.display = "none";
+      if (registerLink) registerLink.style.display = "none";
+      if (profileLink)  profileLink.style.display = "";
+    } else {
+      if (loginLink)    loginLink.style.display = "";
+      if (registerLink) registerLink.style.display = "";
+      if (profileLink)  profileLink.style.display = "";
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

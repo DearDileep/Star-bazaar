@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Star Bazaar</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.auth-page{min-height:calc(100vh - 200px);display:flex;align-items:center;justify-content:center;padding:2rem 1rem}
+.auth-card{background:#fff;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,.12);padding:2.5rem;max-width:480px;width:100%}
+.auth-card h1{color:#1E6F37;margin-bottom:1.5rem;text-align:center;font-size:1.8rem}
+label{display:block;margin-bottom:1rem;color:#1F2937;font-weight:500}
+label input{display:block;width:100%;margin-top:0.5rem;padding:0.75rem;border:1px solid #D1D5DB;border-radius:8px;font-size:1rem;transition:border-color .3s}
+label input:focus{outline:none;border-color:#39B54A;box-shadow:0 0 0 3px rgba(57,181,74,0.1)}
+.btn{width:100%;padding:0.875rem;border-radius:8px;font-weight:600;font-size:1rem;cursor:pointer;transition:all .3s;border:none;margin-bottom:1rem}
+.btn-primary{background:#39B54A;color:#fff}
+.btn-primary:hover{background:#2d8a3a;transform:translateY(-2px);box-shadow:0 4px 12px rgba(57,181,74,0.3)}
+.btn-secondary{background:#F3F4F6;color:#1F2937}
+.btn-secondary:hover{background:#E5E7EB}
+.auth-footer{text-align:center;margin-top:1.5rem;color:#6B7280}
+.auth-footer a{color:#1E6F37;text-decoration:none;font-weight:600}
+.auth-footer a:hover{text-decoration:underline}
+.notice-bar{background:#FEF3C7;border-left:4px solid #F59E0B;padding:1rem;margin:1rem 0;color:#92400E;font-size:0.95rem}
+.notice-bar a{color:#1E6F37;font-weight:600;text-decoration:none}
+.notice-bar a:hover{text-decoration:underline}
+
+/* New OTP styles */
+#otp-start, #otp-verify { display:flex; flex-direction:column; gap:12px; }
+.btn-block { width:100%; }
+.actions-row { display:flex; gap:8px; align-items:center; }
+#otp-dest, #otp-code {
+  height: 44px; border-radius: 8px; padding: 0 12px;
+  border: 1px solid rgba(0,0,0,.15);
+}
+#otp-dest:focus, #otp-code:focus { 
+  outline: none; 
+  border-color: #39B54A; 
+  box-shadow: 0 0 0 3px rgba(57,181,74,.15); 
+}
+</style>
+</head>
+<body data-page="login">
+<nav class="top-nav"><div class="nav-container"><div class="nav-logo"><a href="index.html" class="brand"><img src="logo.png" alt="Star Bazaar" class="logo-img"></a></div><div class="nav-search"><input type="search" id="searchInput" placeholder="Search for products..."><button type="button" id="searchBtn">🔍</button></div><div class="nav-links"><a href="index.html" class="nav-link" data-page="home">Home</a><a href="about.html" class="nav-link" data-page="about">About</a><a href="kitchen.html" class="nav-link" data-page="kitchen">Kitchen</a><a href="login.html" class="nav-link" data-page="login">Login</a><a href="register.html" class="nav-link" data-page="register">Register</a><a href="profile.html" class="nav-link" data-page="profile">Profile</a><a href="#" class="nav-link cart-link" data-page="cart">🛒 Cart <span id="cartCount" class="cart-badge">0</span></a></div></div></nav>
+
+<div id="require-phone-bar" class="notice-bar" style="display:none;">
+Please add your mobile number in <a href="profile.html">Profile</a> to complete your account.
+</div>
+
+<main class="auth-page">
+<div class="auth-card">
+<h1>Welcome back</h1>
+
+<form id="otp-start" novalidate>
+  <label for="otp-dest">Email or mobile number</label>
+  <input id="otp-dest" name="dest" autocomplete="username" />
+  <button type="submit" class="btn-primary btn-block" id="send-otp">Send OTP</button>
+</form>
+
+<form id="otp-verify" style="display:none" novalidate>
+  <label for="otp-code">Enter OTP</label>
+  <input id="otp-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" />
+  <div class="actions-row">
+    <button type="button" class="btn-secondary" id="resend-otp">Resend</button>
+    <button type="submit" class="btn-primary">Verify</button>
+  </div>
+</form>
+
+<small>New here? <a href="register.html">Create account</a></small>
+</div>
+</main>
+
+<footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-col"><h3>Store Timings</h3><p><strong>Monday – Friday:</strong><br>10:00 AM – 7:45 PM</p><p><strong>Saturday – Sunday:</strong><br>9:30 AM – 7:45 PM</p></div><div class="footer-col"><h3>Contact Us</h3><p>1760 Easton Ave, Somerset, NJ 08873</p><p>📞 <a href="tel:+17323563000">+1 (732) 356-3000</a></p><p>✉️ <a href="mailto:starbazaar@gmail.com">starbazaar@gmail.com</a></p><p>🌐 <a href="https://starbigbazaar.com/" target="_blank">starbigbazaar.com</a></p></div><div class="footer-col"><h3>Quick Links</h3><p><a href="index.html">Home</a></p><p><a href="about.html">About</a></p><p><a href="kitchen.html">Kitchen</a></p></div></div><div class="footer-copyright"><p>&copy; 2025 Star Bazaar. All rights reserved.</p></div></div></footer>
+
+<script>
+function get(key,def){try{return JSON.parse(localStorage.getItem(key))}catch(e){return def}}
+function set(key,val){localStorage.setItem(key,JSON.stringify(val))}
+function rm(key){localStorage.removeItem(key)}
+window.isLoggedIn=function(){return localStorage.getItem("sb_auth")==="true"};
+window.getUser=function(){return get("sb_user",null)};
+window.logout=function(){localStorage.setItem("sb_auth","false")};
+window.requirePhoneNoticeActive=function(){const u=get("sb_user",null);const flag=localStorage.getItem("sb_notice_requirePhone")==="true";return!!(flag||(u&&!u.phone))};
+function generateOtp(){return String(Math.floor(Math.random()*1000000)).padStart(6,"0")}
+function saveOtp(destType,dest){const code=generateOtp();const expires=Date.now()+5*60*1000;set("sb_otp",{destType,dest,code,expires});return code}
+function verifyOtp(input){const otp=get("sb_otp",null);if(!otp)return false;if(Date.now()>otp.expires)return false;return otp.code===String(input).trim()}
+(function(){try{var path=(location.pathname||"").toLowerCase();var file=path.split("/").pop()||"index.html";var page=file==="index.html"?"home":file==="about.html"?"about":file==="kitchen.html"?"kitchen":file==="login.html"?"login":file==="register.html"?"register":file==="profile.html"?"profile":file==="cart.html"?"cart":"";document.querySelectorAll(".nav-link").forEach(function(a){var p=a.getAttribute("data-page");if(p===page)a.classList.add("active");else a.classList.remove("active")});var brand=document.querySelector(".brand");if(brand&&brand.tagName==="A")brand.setAttribute("href","index.html")}catch(e){}})();
+(function(){const bar=document.getElementById("require-phone-bar");if(bar&&window.requirePhoneNoticeActive()){bar.style.display="block"}})();
+</script>
+
+<script>
+// Helpers
+function normalizePhone(raw){
+  if (!raw) return null;
+  let s = String(raw).trim();
+  if (s.startsWith('+')) s = s.replace(/[^\d+]/g,''); 
+  else s = s.replace(/\D/g,'');
+  if (!s.startsWith('+')){
+    if (s.length===11 && s[0]==='1') s='+'+s;
+    else if (s.length===10) s='+1'+s;
+    else return null;
+  }
+  return s;
+}
+function isEmail(x){ return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(x).trim()); }
+function phonesEqual(a,b){ return normalizePhone(a)===normalizePhone(b); }
+
+function __get(k,d){ try{return JSON.parse(localStorage.getItem(k))}catch(e){return d} }
+function __set(k,v){ localStorage.setItem(k, JSON.stringify(v)) }
+
+function saveOtp(destType, dest){
+  const code = String(Math.floor(Math.random()*1e6)).padStart(6,'0');
+  const expires = Date.now()+5*60*1000;
+  __set('sb_otp', { destType, dest, code, expires });
+  return code;
+}
+function verifyOtp(input){
+  const rec = __get('sb_otp', null);
+  if (!rec) return false;
+  if (Date.now()>rec.expires) return false;
+  return String(input).trim() === rec.code;
+}
+
+(function(){
+  const startForm  = document.getElementById('otp-start');
+  const verifyForm = document.getElementById('otp-verify');
+  const destInput  = document.getElementById('otp-dest');
+  const resendBtn  = document.getElementById('resend-otp');
+  const codeInput  = document.getElementById('otp-code');
+
+  function findUserByDest(dest){
+    const u = __get('sb_user', null);
+    if (!u) return null;
+    if (isEmail(dest)) return (u.email||'').toLowerCase() === String(dest).toLowerCase() ? u : null;
+    const norm = normalizePhone(dest);
+    return (u.phone && norm && phonesEqual(u.phone, norm)) ? u : null;
+  }
+
+  function send(dest){
+    const user = findUserByDest(dest);
+    if (!user){
+      alert('No account found. Please register first.');
+      location.href = 'register.html?returnTo=' + encodeURIComponent(location.pathname);
+      return;
+    }
+    const type = isEmail(dest) ? 'email' : 'phone';
+    const out = type==='phone' ? normalizePhone(dest) : String(dest).trim().toLowerCase();
+    saveOtp(type, out);  // OTP saved; not displayed
+    startForm.style.display='none';
+    verifyForm.style.display='flex';
+    codeInput.focus();
+  }
+
+  startForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const raw = destInput.value.trim();
+    if (!raw){ alert('Enter your email or mobile number'); return; }
+    const valid = isEmail(raw) || !!normalizePhone(raw);
+    if (!valid){ alert('Enter a valid email or 10-digit US mobile'); return; }
+    send(raw);
+  });
+
+  resendBtn.addEventListener('click', function(){
+    const raw = destInput.value.trim();
+    if (raw) send(raw);
+  });
+
+  verifyForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const code = codeInput.value.trim();
+    if (!code) return;
+    if (!verifyOtp(code)){ alert('Invalid or expired OTP. Please resend.'); return; }
+    localStorage.setItem('sb_auth','true');
+    const u = __get('sb_user', null);
+    if (u && !u.phone) localStorage.setItem('sb_notice_requirePhone','true');
+    const ret = new URL(location.href).searchParams.get('returnTo');
+    location.href = ret || 'index.html';
+  });
+})();
+</script>
+<script>
+// ----- Auth helpers (login page already handles OTP) -----
+window.openAuthModal = function(){ location.href = "login.html?returnTo=" + encodeURIComponent(location.pathname + location.search + location.hash); };
+window.openRegisterModal = function(){ location.href = "register.html?returnTo=" + encodeURIComponent(location.pathname + location.search + location.hash); };
+window.requireAuth = function(next){ if (window.isLoggedIn && window.isLoggedIn()){ if (typeof next === "function") next(); return true; } window.openAuthModal(); return false; };
+</script>
+<script>
+(function(){
+  try{
+    var loggedIn = window.isLoggedIn && window.isLoggedIn();
+    var loginLink    = document.querySelector('.nav-link[data-page="login"]');
+    var registerLink = document.querySelector('.nav-link[data-page="register"]');
+    var profileLink  = document.querySelector('.nav-link[data-page="profile"]');
+    if (loggedIn){
+      if (loginLink)    loginLink.style.display = "none";
+      if (registerLink) registerLink.style.display = "none";
+      if (profileLink)  profileLink.style.display = "";
+    } else {
+      if (loginLink)    loginLink.style.display = "";
+      if (registerLink) registerLink.style.display = "";
+      if (profileLink)  profileLink.style.display = "";
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
